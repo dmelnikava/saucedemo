@@ -1,0 +1,38 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace ="com.saucedemo.db.persistence.UserRepository">
+    <insert id = "create" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        insert into users (user_id, payment_info, shipping_info)
+        values (#{user_id}, #{payment_info}, #{shipping_info})
+    </insert>
+
+    <insert id="createItemConnection" keyColumn="id" useGeneratedKeys="true">
+        insert into order_items (order_id, item_id)
+        values ((select id from `orders` where id = #{order.id}),
+        (select id from items where name = #{item.name}, price = #{item.price}))
+    </insert>
+
+    <select id="read" resultMap="OrderResultMap">
+        select o.id as order_id, o.user_id, o.payment_info, o.shipping_info,
+        oi.item_id,
+        i.name as item_name, i.price as item_price
+        from orders o
+        left join order_items oi on o.id = oi.order_id
+        left join items i on oi.item_id = i.id
+    </select>
+
+    <resultMap id="OrderResultMap" type="com.saucedemo.db.domain.Order" autoMapping="false">
+        <id property="id" column="id"/>
+        <result property="payment_info" column="payment_info"/>
+        <result property="shipping_info" column="shipping_info"/>
+        <collection property="items" ofType="Item"
+                    resultMap="com.solvd.atm.persistence.ItemRepository.ItemResultMap"/>
+    </resultMap>
+
+    <update id= "update" useGeneratedKeys="false">
+        update orders set payment_info = #{payment_info}, shipping_info = #{shipping_info} where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from orders where id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace ="com.saucedemo.db.persistence.ItemRepository">
+    <insert id = "create" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        insert into items (name, description, price) values (#{name}, #{description}, #{price})
+    </insert>
+
+    <select id="read" resultMap="ItemResultMap">
+        select id, name, description, price from items where id = #{id}
+    </select>
+
+    <resultMap id="ItemResultMap" type="com.saucedemo.db.domain.Item" autoMapping="false">
+        <id property="id" column="id"/>
+        <result property= "name" column="name"/>
+        <result property= "description" column="description"/>
+        <result property= "price" column="price"/>
+    </resultMap>
+
+    <update id="update" useGeneratedKeys="false">
+        update items set name = #{name}, description = #{description}, price = #{price} where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from items where id = #{id}
+    </delete>
+</mapper>
