@@ -10,7 +10,7 @@
     <test verbose="1"
           name="GSM Arena News - Web tests by cucumber">
         <classes>
-            <class name="com.saucedemo.carina.demo.CucumberWebSampleTest">
+            <class name="com.saucedemo.CucumberSaucedemoTest">
             </class>
         </classes>
     </test>

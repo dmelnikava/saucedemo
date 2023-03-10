@@ -9,7 +9,7 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-    private String postalCode;
+    private String postalCard;
     private List<Order> orders;
 
     public Long getId() {
@@ -53,11 +53,11 @@ public class User {
     }
 
     public String getPostalCode() {
-        return postalCode;
+        return postalCard;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public void setPostalCard(String postalCard) {
+        this.postalCard = postalCard;
     }
 
     public List<Order> getOrders() {
@@ -66,5 +66,18 @@ public class User {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", postalCard='" + postalCard + '\'' +
+                ", orders=" + orders +
+                '}';
     }
 }

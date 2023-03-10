@@ -4,6 +4,7 @@ import com.saucedemo.db.domain.Item;
 import com.saucedemo.db.domain.Order;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface OrderRepository {
@@ -12,7 +13,7 @@ public interface OrderRepository {
 
     void createItemConnection(Order order, Item item);
 
-    Optional<Order> read(Long id);
+    List<Order> read(Long userId);
 
     void update(Order order);
 

@@ -6,6 +6,9 @@ import com.saucedemo.db.persistence.OrderRepository;
 import com.saucedemo.db.persistence.impl.OrderMapperImpl;
 import com.saucedemo.db.service.OrderService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
@@ -22,9 +25,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order read(Long id) {
-        return orderRepository.read(id)
-                .orElseThrow(() -> new QueryException("No orders found"));
+    public List<Order> read(Long userId) {
+        return orderRepository.read(userId);
     }
 
     @Override

@@ -2,11 +2,13 @@ package com.saucedemo.db.service;
 
 import com.saucedemo.db.domain.Order;
 
+import java.util.List;
+
 public interface OrderService {
 
     Order create(Long userId, Order order);
 
-    Order read(Long id);
+    List<Order> read(Long userId);
 
     void update(Order order);
 

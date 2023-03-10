@@ -14,14 +14,14 @@ public class Config {
 
     static {
         try {
-            FileInputStream fileInputStream = new FileInputStream("src/main/resources/_config.properties");
+            FileInputStream fileInputStream = new FileInputStream("src/main/resources/_database.properties");
             Properties properties = new Properties();
             properties.load(fileInputStream);
 
-            DRIVER = properties.getProperty("driver");
-            URL = properties.getProperty("url");
-            USER_NAME = properties.getProperty("userName");
-            PASSWORD = properties.getProperty("password");
+            DRIVER = properties.getProperty("db.driver");
+            URL = properties.getProperty("db.url");
+            USER_NAME = properties.getProperty("db.user");
+            PASSWORD = properties.getProperty("db.pass");
             POOL_SIZE = Integer.valueOf(properties.getProperty("poolSize"));
             fileInputStream.close();
         } catch (IOException e) {

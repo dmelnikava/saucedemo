@@ -5,15 +5,22 @@
         insert into items (name, description, price) values (#{name}, #{description}, #{price})
     </insert>
 
-    <select id="read" resultMap="ItemResultMap">
+    <select id="read" resultMap="ResultMap">
         select id, name, description, price from items where id = #{id}
     </select>
 
-    <resultMap id="ItemResultMap" type="com.saucedemo.db.domain.Item" autoMapping="false">
+    <resultMap id="ResultMap" type="com.saucedemo.db.domain.Item" autoMapping="false">
         <id property="id" column="id"/>
         <result property= "name" column="name"/>
         <result property= "description" column="description"/>
         <result property= "price" column="price"/>
+    </resultMap>
+
+    <resultMap id="ItemResultMap" type="com.saucedemo.db.domain.Item" autoMapping="false">
+        <id property="id" column="item_id"/>
+        <result property= "name" column="item_name"/>
+        <result property= "description" column="item_description"/>
+        <result property= "price" column="item_price"/>
     </resultMap>
 
     <update id="update" useGeneratedKeys="false">

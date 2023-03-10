@@ -6,6 +6,7 @@ import com.saucedemo.db.persistence.MyBatisConfig;
 import com.saucedemo.db.persistence.OrderRepository;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.List;
 import java.util.Optional;
 
 public class OrderMapperImpl implements OrderRepository {
@@ -27,10 +28,10 @@ public class OrderMapperImpl implements OrderRepository {
     }
 
     @Override
-    public Optional<Order> read(Long id) {
+    public List<Order> read(Long userId) {
         try (SqlSession sqlSession = MyBatisConfig.getSqlSessionFactory().openSession(true)) {
             OrderRepository orderRepository = sqlSession.getMapper(OrderRepository.class);
-            return orderRepository.read(id);
+            return orderRepository.read(userId);
         }
     }
 

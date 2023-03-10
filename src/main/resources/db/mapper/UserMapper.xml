@@ -1,25 +1,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace ="com.saucedemo.db.persistence.UserRepository">
     <insert id = "create" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-        insert into users (username, password, first_name, last_name, postal_name)
-        values (#{username}, #{password}, #{first_name}, #{last_name}, #{postal_name})
+        insert into users (username, password, first_name, last_name, postal_card)
+        values (#{username}, #{password}, #{first_name}, #{last_name}, #{postal_card})
     </insert>
 
     <select id="read" resultMap="UserResultMap">
-        select id, username, password, first_name, last_name, postal_name from users where id = #{id}
+        select id, username, password, first_name, last_name, postal_card from users where id = #{id}
     </select>
 
     <resultMap id="UserResultMap" type="com.saucedemo.db.domain.User" autoMapping="false">
         <id property="id" column="id"/>
         <result property= "username" column="username"/>
         <result property= "password" column="password"/>
-        <result property= "first_name" column="first_name"/>
-        <result property= "last_name" column="last_name"/>
-        <result property= "postal_name" column="postal_name"/>
+        <result property= "firstName" column="first_name"/>
+        <result property= "lastName" column="last_name"/>
+        <result property= "postalCard" column="postal_card"/>
     </resultMap>
 
     <update id="update" useGeneratedKeys="false">
-        update users set username = #{username}, password = #{password}, first_name = #{first_name}, last_name = #{last_name}, postal_name = #{postal_name}
+        update users set username = #{username}, password = #{password}, first_name = #{first_name}, last_name = #{last_name}, postal_card = #{postal_card}
         where id = #{id}
     </update>
 
