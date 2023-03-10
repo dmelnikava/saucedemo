@@ -1,12 +1,10 @@
 package com.saucedemo.db.service.impl;
 
 import com.saucedemo.db.domain.Order;
-import com.saucedemo.db.domain.exception.QueryException;
 import com.saucedemo.db.persistence.OrderRepository;
 import com.saucedemo.db.persistence.impl.OrderMapperImpl;
 import com.saucedemo.db.service.OrderService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
@@ -25,8 +23,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> read(Long userId) {
-        return orderRepository.read(userId);
+    public List<Order> read(Long userId, Long orderId) {
+        return orderRepository.read(userId, orderId);
     }
 
     @Override

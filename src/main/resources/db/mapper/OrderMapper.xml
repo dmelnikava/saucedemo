@@ -18,7 +18,7 @@
         from orders o
         left join order_items oi on o.id = oi.order_id
         left join items i on oi.item_id = i.id
-        where o.user_id = #{o.user_id}
+        where o.id = #{orderId} and o.user_id = #{userId}
     </select>
 
     <resultMap id="OrderResultMap" type="com.saucedemo.db.domain.Order" autoMapping="false">

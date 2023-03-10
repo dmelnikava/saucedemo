@@ -60,7 +60,7 @@ public class SaucedemoSteps extends CucumberRunner {
     public void iAddNeededItemsToTheShoppingCartOnTheHomePage() {
         orderService = new OrderServiceImpl();
 
-        orders = orderService.read(1L);
+        orders = orderService.read(1L, 1L);
         user.setOrders(orders);
         user.getOrders().stream()
                 .flatMap(order -> order.getItems().stream())

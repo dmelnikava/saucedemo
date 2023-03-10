@@ -13,7 +13,7 @@ public interface OrderRepository {
 
     void createItemConnection(Order order, Item item);
 
-    List<Order> read(Long userId);
+    List<Order> read(@Param("userId") Long userId, @Param("orderId") Long orderId);
 
     void update(Order order);
 

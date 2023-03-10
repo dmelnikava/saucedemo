@@ -8,7 +8,7 @@ public interface OrderService {
 
     Order create(Long userId, Order order);
 
-    List<Order> read(Long userId);
+    List<Order> read(Long userId, Long orderId);
 
     void update(Order order);
 
