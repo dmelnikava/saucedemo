@@ -2,26 +2,20 @@ package com.saucedemo.cucumber.steps;
 
 import com.qaprosoft.carina.core.foundation.cucumber.CucumberRunner;
 import com.saucedemo.db.domain.Item;
-import com.saucedemo.db.domain.Order;
 import com.saucedemo.db.domain.User;
 import com.saucedemo.db.persistence.ConnectionPool;
-import com.saucedemo.db.service.OrderService;
 import com.saucedemo.db.service.UserService;
-import com.saucedemo.db.service.impl.OrderServiceImpl;
 import com.saucedemo.db.service.impl.UserServiceImpl;
 import com.saucedemo.gui.pages.*;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 
 import java.sql.Connection;
-import java.util.List;
 
-public class SaucedemoSteps extends CucumberRunner {
+public class SaucedemoUserSteps extends CucumberRunner {
 
     LoginPage loginPage = null;
     HomePage homePage = null;
@@ -30,38 +24,31 @@ public class SaucedemoSteps extends CucumberRunner {
     OverviewPage overviewPage = null;
     CompletePage completePage = null;
     UserService userService = null;
-    OrderService orderService = null;
     User user = null;
-    List<Order> orders;
     Connection connection;
 
     private static final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
-    private static final Logger LOGGER = (Logger) LogManager.getLogger(SaucedemoSteps.class);
 
-    @Given("^I am on the site Login page$")
-    public void iAmOnTheSiteLoginPage() {
+    @Given("^I am on the Saucedemo site Login page$")
+    public void iAmOnTheSaucedemoSiteLoginPage() {
         loginPage = new LoginPage(getDriver());
         loginPage.open();
     }
 
-    @When("^I login as a standard_user$")
-    public void iLoginAsAStandard_user() {
+    @When("^I login as a standard_user")
+    public void iLoginAsAStandardUser() {
         connection = CONNECTION_POOL.getConnection();
 
         userService = new UserServiceImpl();
-        user = userService.read(1L);
+        user = userService.read(1L, 1L);
 
         homePage = loginPage.enterUsername(user.getUsername())
                 .enterPassword(user.getPassword())
                 .clickLoginBtn();
     }
 
-    @And("^I add needed items to the shopping cart on the Home page$")
-    public void iAddNeededItemsToTheShoppingCartOnTheHomePage() {
-        orderService = new OrderServiceImpl();
-
-        orders = orderService.read(1L, 1L);
-        user.setOrders(orders);
+    @And("^I add standard_user items to the shopping cart on the Home page$")
+    public void iAddStandardUserItemsToTheShoppingCartOnTheHomePage() {
         user.getOrders().stream()
                 .flatMap(order -> order.getItems().stream())
                         .map(Item::getName)
@@ -96,6 +83,39 @@ public class SaucedemoSteps extends CucumberRunner {
     @And("the {string} message should be displayed")
     public void theMessageShouldBeDisplayed(String msg) {
         Assert.assertEquals(completePage.getCompleteMsg(), msg);
+        CONNECTION_POOL.releaseConnection(connection);
+    }
+
+    @When("^I login as a performance_glitch_user$")
+    public void iLoginAsAPerformanceGlitchUser() {
+        connection = CONNECTION_POOL.getConnection();
+
+        userService = new UserServiceImpl();
+        user = userService.read(2L, 2L);
+
+        homePage = loginPage.enterUsername(user.getUsername())
+                .enterPassword(user.getPassword())
+                .clickLoginBtn();
+    }
+
+    @And("^I add performance_glitch_user items to the shopping cart on the Home page$")
+    public void iAddPerformanceGlitchUserItemsToTheShoppingCartOnTheHomePage() {
+        user.getOrders().stream()
+                .flatMap(order -> order.getItems().stream())
+                .map(Item::getName)
+                .forEach(itemName -> homePage.clickAddToCartBtn(itemName));
+
+        cartPage = homePage.clickShoppingCart();
+    }
+
+    @And("^I remove all added items from the Cart page$")
+    public void iRemoveAllAddedItemsFromTheCartPage() {
+        cartPage.clickRemoveBtns();
+    }
+
+    @Then("^the Cart page doesn't contain any item$")
+    public void theCartPageNotContainAnyItem() {
+        Assert.assertTrue(cartPage.checkRemoveBtns());
         CONNECTION_POOL.releaseConnection(connection);
     }
 }

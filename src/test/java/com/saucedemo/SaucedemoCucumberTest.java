@@ -11,4 +11,4 @@ import io.cucumber.testng.CucumberOptions;
                 "json:target/cucumber-core-test-report.json",
                 "junit:target/cucumber-core-test-report.xml"}
 )
-public class CucumberSaucedemoTest extends CucumberBaseTest { }
+public class SaucedemoCucumberTest extends CucumberBaseTest { }

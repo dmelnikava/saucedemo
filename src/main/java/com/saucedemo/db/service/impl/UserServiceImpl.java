@@ -22,8 +22,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User read(Long id) {
-        return userRepository.read(id)
+    public User read(Long userId, Long orderId) {
+        return userRepository.read(userId, orderId)
                 .orElseThrow(() -> new QueryException("No users found"));
     }
 

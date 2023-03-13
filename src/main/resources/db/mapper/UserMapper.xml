@@ -6,16 +6,26 @@
     </insert>
 
     <select id="read" resultMap="UserResultMap">
-        select id, username, password, first_name, last_name, postal_card from users where id = #{id}
+        select u.id as user_id, u.username, u.password, u.first_name, u.last_name, u.postal_card,
+        o.id as order_id, o.user_id, o.payment_info, o.shipping_info,
+        oi.item_id,
+        i.name as item_name, i.description as item_description, i.price as item_price
+        from users u
+        left join orders o on u.id = o.user_id
+        left join order_items oi on o.id = oi.order_id
+        left join items i on oi.item_id = i.id
+        where u.id = #{userId} and o.id = #{orderId}
     </select>
 
     <resultMap id="UserResultMap" type="com.saucedemo.db.domain.User" autoMapping="false">
-        <id property="id" column="id"/>
+        <id property="id" column="user_id"/>
         <result property= "username" column="username"/>
         <result property= "password" column="password"/>
         <result property= "firstName" column="first_name"/>
         <result property= "lastName" column="last_name"/>
         <result property= "postalCard" column="postal_card"/>
+        <collection property="orders" ofType="com.saucedemo.db.domain.Order"
+                    resultMap="com.saucedemo.db.persistence.OrderRepository.OrderResultMap"/>
     </resultMap>
 
     <update id="update" useGeneratedKeys="false">

@@ -6,7 +6,7 @@ public interface UserService {
 
     User create(User user);
 
-    User read(Long id);
+    User read(Long userId, Long orderId);
 
     void update(User user);
 
